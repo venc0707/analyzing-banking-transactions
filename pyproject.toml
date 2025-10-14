@@ -8,9 +8,21 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "python-dotenv (>=1.1.1,<2.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.lint.dependencies]
+flake8 = "^7.3.0"
+black = "^25.9.0"
+isort = "^7.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.18.2"
+pytest = "^8.4.2"
+
