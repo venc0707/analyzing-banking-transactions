@@ -21,7 +21,7 @@ def open_file_xlsx(path_file: str):
         raise FileNotFoundError
 
 
-def data_analysis(current_time: str, df: DataFrame) -> DataFrame:
+def data_analysis(current_time: str, df: pd.DataFrame) -> pd.DataFrame:
     """данные с начала месяца по входящую дату"""
     try:
         date_obj = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S")
