@@ -31,7 +31,7 @@ def exchange_rate(setting: dict) -> list[dict]:
                     "rate": round(data_rate['conversion_rates']['RUB'], 2)
                 }
                 list_currency_rates.append(currency_rate)
-        print(list_currency_rates)
+       # print(list_currency_rates)
         return list_currency_rates
     except Exception as ex:
         print(f'Ошибка: {ex}')
@@ -52,7 +52,7 @@ def stock_prices(settings: dict) -> list[dict]:
                     "price": data[0]['price']
                 }
                 list_stock_prices.append(stock)
-        print(list_stock_prices)
+       # print(list_stock_prices)
         return list_stock_prices
 
     except Exception as ex:
