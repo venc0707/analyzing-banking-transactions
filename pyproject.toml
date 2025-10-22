@@ -29,3 +29,62 @@ isort = "^7.0.0"
 mypy = "^1.18.2"
 pytest = "^8.4.2"
 
+
+[tool.black]
+# Базовая конфигурация Black
+line-length = 119
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+# Файлы и папки которые Black будет игнорировать
+/(
+  # git
+  | \.git
+  # CI
+  | \.github
+  # venv
+  | venv
+  | \.venv
+  # config
+  | config
+  | logs
+)/
+'''
+
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+# line_length = 119  # ← Синхронизировать с Black
+known_first_party = ["src"]
+
+
+[tool.mypy]
+# Строгость типизации
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+# Дополнительные проверки
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_configs = true
+# Исключения
+exclude = [
+    "venv",
+    "\\.venv",
+    "__pycache__",
+    "\\.mypy_cache",
+    "build",
+    "dist"
+]
+# Настройки для конкретных модулей
+[[tool.mypy.overrides]]
+module = [
+    "pandas.*",
+    "numpy.*",
+    "matplotlib.*",
+    "seaborn.*"
+]
+ignore_missing_imports = true
