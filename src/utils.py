@@ -56,7 +56,7 @@ def data_analysis(current_time: str, df: pd.DataFrame) -> pd.DataFrame:
     try:
         # Логируем исходные параметры
         initial_count = len(df)
-        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ | Строк: %,d | Колонок: %d", initial_count, len(df.columns))
+        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ | Строк: %d | Колонок: %d", initial_count, len(df.columns))
 
         with log_execution_time("Парсинг дат"):
             date_obj = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S")
@@ -84,7 +84,7 @@ def data_analysis(current_time: str, df: pd.DataFrame) -> pd.DataFrame:
 
         efficiency = (filtered_count / initial_count * 100) if initial_count > 0 else 0
         logger.info(
-            "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %,d | Отфильтровано: %,d | Эффективность: %.1f%%",
+            "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %d | Отфильтровано: %d | Эффективность: %.1f%%",
             initial_count,
             filtered_count,
             efficiency,
@@ -141,7 +141,7 @@ def cards(df: DataFrame) -> list[dict]:
 
     try:
         # Логируем входные данные
-        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ ДЛЯ КАРТ | Строк: %,d", len(df))
+        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ ДЛЯ КАРТ | Строк: %d", len(df))
 
         if df.empty:
             logger.warning("⚠️  ПУСТОЙ DATAFRAME ДЛЯ АНАЛИЗА КАРТ")
@@ -173,10 +173,10 @@ def cards(df: DataFrame) -> list[dict]:
             total_spent_all += spent
             total_cashback_all += cashback
 
-            logger.debug("💳 КАРТА %s | Расходы: %,.2f | Кэшбэк: %,.2f", card["last_digits"], spent, cashback)
+            logger.debug("💳 КАРТА %s | Расходы: %.2f | Кэшбэк: %.2f", card["last_digits"], spent, cashback)
 
         logger.info(
-            "💳 АНАЛИЗ КАРТ ЗАВЕРШЕН | Карт: %d | Общие расходы: %,.2f | Общий кэшбэк: %,.2f",
+            "💳 АНАЛИЗ КАРТ ЗАВЕРШЕН | Карт: %d | Общие расходы: %.2f | Общий кэшбэк: %.2f",
             len(list_card),
             total_spent_all,
             total_cashback_all,
@@ -197,7 +197,7 @@ def top_transactions(df: DataFrame) -> list[dict]:
     logger.info("🏆 ЗАПУСК ПОИСКА ТОП-5 ТРАНЗАКЦИЙ")
 
     try:
-        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ | Строк: %,d", len(df))
+        logger.debug("📊 ВХОДНЫЕ ДАННЫЕ | Строк: %d", len(df))
 
         if df.empty:
             logger.warning("⚠️  ПУСТОЙ DATAFRAME ДЛЯ ПОИСКА ТОП ТРАНЗАКЦИЙ")
@@ -243,10 +243,10 @@ def top_transactions(df: DataFrame) -> list[dict]:
             list_top5.append(transaction)
             total_amount += amount
 
-            logger.debug("🏆 ТОП-ТРАНЗАКЦИЯ | Дата: %s | Сумма: %,.2f | Категория: %s", date_str, amount, category)
+            logger.debug("🏆 ТОП-ТРАНЗАКЦИЯ | Дата: %s | Сумма: %.2f | Категория: %s", date_str, amount, category)
 
         logger.info(
-            "🏆 ТОП-5 ТРАНЗАКЦИЙ СФОРМИРОВАНЫ | Транзакций: %d | Общая сумма: %,.2f", len(list_top5), total_amount
+            "🏆 ТОП-5 ТРАНЗАКЦИЙ СФОРМИРОВАНЫ | Транзакций: %d | Общая сумма: %.2f", len(list_top5), total_amount
         )
         return list_top5
 
@@ -257,7 +257,7 @@ def top_transactions(df: DataFrame) -> list[dict]:
 
 @log_function_call("INFO")
 def main_utils(current_time: str) -> dict:
-    """главную функцию модуля utils_logs"""
+    """главную функцию модуля utils"""
     logger = get_logger(__name__)
 
     logger.info("🚀 ЗАПУСК ГЛАВНОЙ ФУНКЦИИ UTILS")
@@ -273,7 +273,7 @@ def main_utils(current_time: str) -> dict:
                 logger.error("❌ НЕ УДАЛОСЬ ЗАГРУЗИТЬ ДАННЫЕ ИЗ ФАЙЛА")
                 return {}
 
-            logger.info("📊 ДАННЫЕ ЗАГРУЖЕНЫ | Строк: %,d | Колонок: %d", len(df), len(df.columns))
+            logger.info("📊 ДАННЫЕ ЗАГРУЖЕНЫ | Строк: %d | Колонок: %d", len(df), len(df.columns))
 
             # Анализ качества данных
             log_data_quality(df, "Исходные данные")
