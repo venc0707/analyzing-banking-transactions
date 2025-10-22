@@ -3,6 +3,7 @@ import pandas as pd
 from pandas import DataFrame
 from typing import Dict, List, Any
 from utils_logs.logger_utils import get_logger, log_function_call, log_execution_time, log_dataframe_info
+from src.utils import open_file_xlsx, data_analysis
 
 
 pd.set_option("display.max_columns", None)
@@ -48,7 +49,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
         efficiency = (filtered_count / initial_count * 100) if initial_count > 0 else 0
 
         logger.info(
-            "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %,d | Найдено переводов: %,d | Эффективность: %.1f%%",
+            "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %d | Найдено переводов: %d | Эффективность: %.1f%%",
             initial_count,
             filtered_count,
             efficiency,
@@ -90,7 +91,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
 
                     if logger.isEnabledFor(logging.DEBUG):
                         logger.debug(
-                            "💸 НАЙДЕН ПЕРЕВОД | Дата: %s | Сумма: %,.2f | Описание: %.50s",
+                            "💸 НАЙДЕН ПЕРЕВОД | Дата: %s | Сумма: %.2f | Описание: %.50s",
                             date_str,
                             amount,
                             description,
@@ -104,7 +105,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
             if list_translations:
                 avg_translation = total_amount / len(list_translations) if list_translations else 0
                 logger.info(
-                    "📊 ИТОГИ ПОИСКА ПЕРЕВОДОВ | Переводов: %d | Общая сумма: %,.2f | Средний перевод: %,.2f",
+                    "📊 ИТОГИ ПОИСКА ПЕРЕВОДОВ | Переводов: %d | Общая сумма: %.2f | Средний перевод: %.2f",
                     len(list_translations),
                     total_amount,
                     avg_translation,
@@ -118,7 +119,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
             try:
                 json_list_translations = json.dumps(list_translations, indent=2, ensure_ascii=False, default=str)
                 logger.info(
-                    "✅ JSON СФОРМИРОВАН | Размер: %,d символов | Переводов: %d",
+                    "✅ JSON СФОРМИРОВАН | Размер: %d символов | Переводов: %d",
                     len(json_list_translations),
                     len(list_translations),
                 )
@@ -133,6 +134,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
         return json.dumps([], ensure_ascii=False)
 
 
-# if __name__ == "__main__":
-#     df = open_file_xlsx("../data/operations.xlsx")
-#     search_translations(df)
+if __name__ == "__main__":
+    df = open_file_xlsx("../data/operations.xlsx")
+    df_analisis = data_analysis("2020-07-30 16:53:00", df)
+    print(search_translations(df_analisis))

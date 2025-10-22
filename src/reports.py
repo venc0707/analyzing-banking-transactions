@@ -8,6 +8,17 @@ from utils_logs.logger_utils import get_logger, log_function_call, log_execution
 logger = get_logger(__name__)
 
 
+def writing_to_file(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        with open("../data/spending_by_category.txt", "w", encoding="utf-8") as f:
+            f.write(result.to_string())
+        return result
+
+    return wrapper
+
+
+@writing_to_file
 @log_function_call("INFO")
 def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
     """Траты по категории за последние 90 дней"""
@@ -53,6 +64,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
             # Преобразуем даты
             with log_execution_time("Преобразование дат", __name__):
                 initial_count = len(transactions)
+                transactions = transactions.copy()
                 transactions["Дата операции"] = pd.to_datetime(
                     transactions["Дата операции"], format="%d.%m.%Y %H:%M:%S", errors="coerce"
                 )
@@ -85,7 +97,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
             efficiency = (filtered_count / initial_count * 100) if initial_count > 0 else 0
 
             logger.info(
-                "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %,d | Отфильтровано: %,d | Эффективность: %.1f%%",
+                "✅ ФИЛЬТРАЦИЯ ЗАВЕРШЕНА | Исходно: %d | Отфильтровано: %d | Эффективность: %.1f%%",
                 initial_count,
                 filtered_count,
                 efficiency,
@@ -110,6 +122,8 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 )
                 return filtered_df
 
+        return filtered_df
+
     except Exception as ex:
         logger.error(
             "❌ ОШИБКА В spending_by_category | Категория: '%s' | Тип: %s", category, type(ex).__name__, exc_info=True
@@ -122,10 +136,10 @@ if __name__ == "__main__":
     # spending_by_category(df, "Переводы", "2019-01-10 16:26:00")
 
     if df is not None:
-        # Анализ расходов по категории "Супермаркеты"
-        result = spending_by_category(transactions=df, category="Супермаркеты", date="2024-01-15 10:00:00")
-
-        if not result.empty:
-            logger.info("✅ АНАЛИЗ ЗАВЕРШЕН УСПЕШНО")
-        else:
-            logger.info("ℹ️  ДАННЫЕ ПО КАТЕГОРИИ НЕ НАЙДЕНЫ")
+        # Анализ расходов по категории "Переводы" 2018-01-01 12:49:53
+        result = spending_by_category(transactions=df, category="Переводы", date="2021-01-01 12:49:53")
+    print(result)
+    if not result.empty:
+        logger.info("✅ АНАЛИЗ ЗАВЕРШЕН УСПЕШНО")
+    else:
+        logger.info("ℹ️  ДАННЫЕ ПО КАТЕГОРИИ НЕ НАЙДЕНЫ")
