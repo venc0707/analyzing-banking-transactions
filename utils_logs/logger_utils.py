@@ -1,8 +1,9 @@
+import functools
 import logging
 import time
-import functools
 from contextlib import contextmanager
 from typing import Optional
+
 from pandas import DataFrame
 
 
@@ -94,7 +95,7 @@ def log_dataframe_info(df: DataFrame, df_name: str = "DataFrame", logger_name: O
         memory_usage = df.memory_usage(deep=True).sum() / 1024**2
 
         logger.info(
-            "📊 ДАННЫЕ: %s | Строк: %,d | Столбцов: %d | Память: %.2f MB",
+            "📊 ДАННЫЕ: %s | Строк: %d | Столбцов: %d | Память: %.2f MB",
             df_name,
             len(df),
             len(df.columns),
@@ -122,7 +123,7 @@ def log_data_quality(df: DataFrame, df_name: str = "DataFrame", logger_name: Opt
         completeness = (1 - total_missing / total_cells) * 100 if total_cells > 0 else 0
 
         logger.info(
-            "🔍 КАЧЕСТВО ДАННЫХ: %s | Пропущено: %,d | Заполненность: %.1f%%", df_name, total_missing, completeness
+            "🔍 КАЧЕСТВО ДАННЫХ: %s | Пропущено: %d | Заполненность: %.1f%%", df_name, total_missing, completeness
         )
 
         if total_missing > 0 and logger.isEnabledFor(logging.DEBUG):

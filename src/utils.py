@@ -3,19 +3,16 @@ from datetime import datetime
 
 import pandas as pd
 from pandas import DataFrame
-from typing import Dict, List, Any
 
-
-from src.views import exchange_rate, stock_prices, get_user_setting
+from src.views import exchange_rate, get_user_setting, stock_prices
 from utils_logs.logger_utils import (
     get_logger,
-    log_function_call,
-    log_execution_time,
-    log_dataframe_info,
     log_data_quality,
+    log_dataframe_info,
     log_dict_structure,
+    log_execution_time,
+    log_function_call,
 )
-
 
 pd.set_option("display.max_columns", None)
 
@@ -64,8 +61,8 @@ def data_analysis(current_time: str, df: pd.DataFrame) -> pd.DataFrame:
 
             end_date_str = datetime.strftime(date_obj, "%d.%m.%Y")
             start_date_str = end_date_str.split(".")
-            start_date_str[0] = "01"
-            start_date_str = ".".join(start_date_str)
+            start_date_str[0] = "01"  # type: ignore
+            start_date_str = ".".join(start_date_str)  # type: ignore
 
         logger.info("📅 РАСЧЕТ ПЕРИОДА | Начало: %s | Конец: %s", start_date_str, end_date_str)
 
@@ -115,7 +112,7 @@ def greetings(current_time: str) -> str:  # YYYY-MM-DD HH:MM:SS
 
         logger.debug("⏰ АНАЛИЗ ВРЕМЕНИ | Час: %d", hour)
 
-        if 5 <= hour <= 12:
+        if 5 <= hour < 12:
             greeting = "Доброе утро"
         elif 12 <= hour <= 18:
             greeting = "Добрый день"
@@ -256,7 +253,7 @@ def top_transactions(df: DataFrame) -> list[dict]:
 
 
 @log_function_call("INFO")
-def main_utils(current_time: str) -> dict:
+def main_utils(current_time: str) -> str | None:
     """главную функцию модуля utils"""
     logger = get_logger(__name__)
 
@@ -271,7 +268,7 @@ def main_utils(current_time: str) -> dict:
 
             if df is None or df.empty:
                 logger.error("❌ НЕ УДАЛОСЬ ЗАГРУЗИТЬ ДАННЫЕ ИЗ ФАЙЛА")
-                return {}
+                return None
 
             logger.info("📊 ДАННЫЕ ЗАГРУЖЕНЫ | Строк: %d | Колонок: %d", len(df), len(df.columns))
 

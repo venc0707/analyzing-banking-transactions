@@ -1,9 +1,10 @@
-from src.services import search_translations
-import pytest
-import pandas as pd
 import json
-from unittest.mock import patch, MagicMock
 import logging
+
+import pandas as pd
+import pytest
+
+from src.services import search_translations
 
 # Настройка логирования для тестов
 logging.basicConfig(level=logging.ERROR)  # Уменьшаем уровень логирования для тестов

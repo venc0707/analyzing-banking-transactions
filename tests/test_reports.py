@@ -1,10 +1,11 @@
-import pytest
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from unittest.mock import patch, mock_open, MagicMock
 import logging
-from src.reports import writing_to_file, spending_by_category
+from datetime import datetime, timedelta
+from unittest.mock import mock_open, patch
+
+import pandas as pd
+import pytest
+
+from src.reports import spending_by_category
 
 # Настройка логирования для тестов
 logging.basicConfig(level=logging.ERROR)
@@ -190,7 +191,7 @@ def test_spending_by_category_file_writing():
 
     # Мокаем запись в файл
     with patch("builtins.open", mock_open()) as mock_file:
-        result = spending_by_category(df, "Еда", "2023-01-30 12:00:00")
+        spending_by_category(df, "Еда", "2023-01-30 12:00:00")
 
         # Проверяем что файл был открыт для записи
         mock_file.assert_called_once_with("../data/spending_by_category.txt", "w", encoding="utf-8")

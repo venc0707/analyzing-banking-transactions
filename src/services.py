@@ -1,10 +1,16 @@
 import json
+import logging
+
 import pandas as pd
 from pandas import DataFrame
-from typing import Dict, List, Any
-from utils_logs.logger_utils import get_logger, log_function_call, log_execution_time, log_dataframe_info
-from src.utils import open_file_xlsx, data_analysis
 
+from src.utils import data_analysis, open_file_xlsx
+from utils_logs.logger_utils import (
+    get_logger,
+    log_dataframe_info,
+    log_execution_time,
+    log_function_call,
+)
 
 pd.set_option("display.max_columns", None)
 # Получаем логгер используя нашу утилиту
@@ -12,7 +18,7 @@ logger = get_logger(__name__)
 
 
 @log_function_call("INFO")
-def search_translations(df: DataFrame) -> List[Dict]:
+def search_translations(df: DataFrame) -> str:
     """Поиск переводов физическим лицам"""
 
     try:
@@ -62,7 +68,7 @@ def search_translations(df: DataFrame) -> List[Dict]:
         # Формируем список переводов
         logger.info("📝 ФОРМИРОВАНИЕ СПИСКА ПЕРЕВОДОВ")
         list_translations = []
-        total_amount = 0
+        total_amount = 0.0
 
         with log_execution_time("Обработка найденных переводов", __name__):
             for i, data in df_group.iterrows():

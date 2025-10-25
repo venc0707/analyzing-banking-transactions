@@ -1,13 +1,13 @@
-import pytest
 import json
 import os
-from unittest.mock import patch, mock_open, MagicMock
 import sys
+from unittest.mock import MagicMock, mock_open, patch
+
+import pytest
+
+from src.utils import exchange_rate, get_user_setting, stock_prices
 
 sys.path.append("..")  # Добавляем путь к исходным файлам
-
-# Импортируем функции из вашего модуля
-from src.utils import get_user_setting, exchange_rate, stock_prices
 
 
 # Тесты для get_user_setting

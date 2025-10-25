@@ -21,7 +21,8 @@ def setup_logging():
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
             "detailed": {
-                "format": "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(funcName)s - %(message)s",
+                "format": "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(funcName)s"
+                " - %(message)s",
                 "datefmt": "%Y-%m-%d %H:%M:%S",
             },
         },
@@ -36,7 +37,7 @@ def setup_logging():
                 "class": "logging.handlers.RotatingFileHandler",
                 "level": "DEBUG",
                 "formatter": "detailed",
-                "filename": log_dir / "app.log",
+                "filename": str(log_dir / "app.log"),
                 "maxBytes": 10 * 1024 * 1024,  # 10MB
                 "backupCount": 5,
                 "encoding": "utf8",
@@ -45,16 +46,21 @@ def setup_logging():
                 "class": "logging.handlers.RotatingFileHandler",
                 "level": "ERROR",
                 "formatter": "detailed",
-                "filename": log_dir / "errors.log",
+                "filename": str(log_dir / "errors.log"),
                 "maxBytes": 10 * 1024 * 1024,
                 "backupCount": 5,
                 "encoding": "utf8",
             },
         },
         "loggers": {
-            "": {"handlers": ["default", "file", "error_file"], "level": "DEBUG", "propagate": False},  # root logger
-            "src": {"handlers": ["default", "file"], "level": "DEBUG", "propagate": False},
-            "config": {"handlers": ["default", "file"], "level": "DEBUG", "propagate": False},
+            "": {  # root logger
+                "handlers": ["console", "file_app", "file_errors"],
+                "level": "DEBUG",
+                "propagate": False,
+            },
+            "src": {"handlers": ["console", "file_app"], "level": "DEBUG", "propagate": False},
+            "config": {"handlers": ["console", "file_app"], "level": "DEBUG", "propagate": False},
+            "utils": {"handlers": ["console", "file_app"], "level": "DEBUG", "propagate": False},
         },
     }
 

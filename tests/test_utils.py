@@ -1,9 +1,18 @@
-from src.utils import open_file_xlsx, greetings, data_analysis, cards, top_transactions, main_utils
-import pytest
-import pandas as pd
 import json
+from unittest.mock import mock_open, patch
+
 import numpy as np
-from unittest.mock import patch, mock_open, MagicMock
+import pandas as pd
+import pytest
+
+from src.utils import (
+    cards,
+    data_analysis,
+    greetings,
+    main_utils,
+    open_file_xlsx,
+    top_transactions,
+)
 
 
 # Тесты для open_file_xlsx

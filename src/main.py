@@ -1,8 +1,8 @@
-from src.utils import main_utils, open_file_xlsx, data_analysis
-from src.services import search_translations
-from src.reports import spending_by_category
-from utils_logs.logger_utils import get_logger, log_execution_time
 from config.logging_config import setup_logging
+from src.reports import spending_by_category
+from src.services import search_translations
+from src.utils import data_analysis, main_utils, open_file_xlsx
+from utils_logs.logger_utils import get_logger, log_execution_time
 
 logger = get_logger(__name__)
 

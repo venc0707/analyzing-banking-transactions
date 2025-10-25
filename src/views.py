@@ -1,11 +1,12 @@
 import json
-from dotenv import load_dotenv
-import os
-import requests
 import logging
 import logging.config
-from utils_logs.logger_utils import get_logger, log_execution_time, log_function_call
+import os
 
+import requests
+from dotenv import load_dotenv
+
+from utils_logs.logger_utils import get_logger, log_execution_time, log_function_call
 
 load_dotenv()
 logger = get_logger(__name__)
