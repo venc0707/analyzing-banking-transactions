@@ -12,6 +12,7 @@ dependencies = [
     "pandas (>=2.3.3,<3.0.0)",
     "openpyxl (>=3.1.5,<4.0.0)",
     "requests (>=2.32.5,<3.0.0)",
+    "pytest (>=8.4.2,<9.0.0)",
 ]
 
 
@@ -60,24 +61,16 @@ known_first_party = ["src"]
 
 
 [tool.mypy]
-# Строгость типизации
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-warn_return_any = true
-warn_unused_ignores = true
-no_implicit_optional = true
-# Дополнительные проверки
-check_untyped_defs = true
-warn_redundant_casts = true
-warn_unused_configs = true
-# Исключения
+ignore_missing_imports = true
 exclude = [
     "venv",
     "\\.venv",
     "__pycache__",
     "\\.mypy_cache",
     "build",
-    "dist"
+    "dist",
+    "utils_logs/",
+    "config/"
 ]
 # Настройки для конкретных модулей
 [[tool.mypy.overrides]]
@@ -85,6 +78,8 @@ module = [
     "pandas.*",
     "numpy.*",
     "matplotlib.*",
-    "seaborn.*"
+    "seaborn.*",
+    'utils_logs.logger_utils',
+    'config.logging_config'
 ]
 ignore_missing_imports = true

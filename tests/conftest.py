@@ -1,9 +1,8 @@
-import sys
-import pytest
-import pandas as pd
 import os
-from unittest.mock import patch, mock_open
-import json
+import sys
+
+import pandas as pd
+import pytest
 
 # Добавляем путь к проекту
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -24,14 +23,6 @@ def setup_test_env():
     # Восстанавливаем оригинальные переменные
     os.environ.clear()
     os.environ.update(original_env)
-
-
-@pytest.fixture(autouse=True)
-def setup_test_env():
-    """Автоматическая настройка тестовой среды"""
-    os.environ["API_KEY_RATE"] = "test_rate_key"
-    os.environ["API_KEY_STOCK"] = "test_stock_key"
-    yield
 
 
 @pytest.fixture
